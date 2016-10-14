@@ -1,0 +1,28 @@
+{
+  "name": "drag-and-drop-tree",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rodinwow/drag-and-drop-tree.git"
+  },
+  "keywords": [],
+  "author": "Eugene",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rodinwow/drag-and-drop-tree/issues"
+  },
+  "homepage": "https://github.com/rodinwow/drag-and-drop-tree#readme",
+  "dependencies": {
+    "body-parser": "~1.15.1",
+    "debug": "~2.2.0",
+    "express": "~4.13.4",
+    "jade": "~1.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}

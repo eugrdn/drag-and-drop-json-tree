@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Drag'n'Drop Tree App</title>
+	<link rel="stylesheet" href="stylesheets/style.css"> <!-- custom styles -->
+	<!-- angualr libs -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+	<!-- Angular Custom -->
+	<script src="javascripts/app.js"></script>
+	<script src="javascripts/app/controllers/controller.js"></script>
+	<!-- <script src="javascripts/app/services/service.js"></script> -->
+	<script src="javascripts/app/directives.js"></script>
+</head>
+<body ng-app="dndTreeApp">
+	<div>
+		<h1>Drag-and-Drop Tree Application</h1>
+		<div class="container" ng-controller="TreeController">
+			<pre>{{ data | json}}</pre>
+		</div>
+	</div>
+</body>
+</html>
