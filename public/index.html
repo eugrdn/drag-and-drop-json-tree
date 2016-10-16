@@ -9,14 +9,15 @@
 	<!-- Angular Custom -->
 	<script src="javascripts/app.js"></script>
 	<script src="javascripts/app/controllers/controller.js"></script>
-	<!-- <script src="javascripts/app/services/service.js"></script> -->
+	<script src="javascripts/app/services/service.js"></script>
 	<script src="javascripts/app/directives.js"></script>
 </head>
 <body ng-app="dndTreeApp">
 	<div>
 		<h1>Drag-and-Drop Tree Application</h1>
-		<div class="container" ng-controller="TreeController">
-			<pre>{{ data | json}}</pre>
+		<hr>
+		<div ng-controller="TreeController">
+			<ng-dom-manipulator style="background-color: #000" tree="exampleJson" class="tree"></ng-dom-manipulator>	
 		</div>
 	</div>
 </body>

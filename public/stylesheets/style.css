@@ -1,8 +1,52 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+body 
+{
+  padding: 0;
+  margin: 0; 
+	color: #3d3741;
+  background-color: #f2f2f2;
+  font-family: Georgia, serif, "Calibri";
 }
 
-a {
-  color: #00B7FF;
+h1{ text-align: center; }
+
+hr{ width: 20%; }
+
+ul{ list-style-type: none; }
+
+ul li
+{
+	display: table-row;
+	border: 1px solid #222;
 }
+ul li:not(.tree__object)::before{
+	content: '—';
+	margin: 0 10px;
+	display: inline-block;
+}
+ul li,
+li p
+{	
+	margin: 10px;
+}
+ul li:hover,
+li p:hover
+{
+	cursor: pointer;
+}
+p
+{
+	margin-left: 10px;
+	display: inline-block;
+}
+.tree__object
+{
+	color: #eee;
+	background-color: #8c8194;
+	display: inline-block;
+}
+.tree__array
+{
+	display: inline-block;
+	background-color: #ff4500;
+}
+.tree__p{ background-color: #fff; }
