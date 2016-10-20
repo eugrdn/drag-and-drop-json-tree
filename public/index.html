@@ -14,10 +14,17 @@
 </head>
 <body ng-app="dndTreeApp">
 	<div>
-		<h1>Drag-and-Drop Tree Application</h1>
+		<h1>Drag'n'Drop Tree Application</h1>
 		<hr>
+		<div style="min-height:100px;min-widht:50px; border:3px solid black;" ng-droppable></div>
 		<div ng-controller="TreeController">
-			<ng-dom-manipulator style="background-color: #000" tree="exampleJson" class="tree"></ng-dom-manipulator>	
+			<ng-dom-manipulator 
+				style="background-color: #000" 
+				tree="exampleJson" 
+				class="tree" 
+				ng-draggable
+				ng-droppable>
+			</ng-dom-manipulator>	
 		</div>
 	</div>
 </body>
