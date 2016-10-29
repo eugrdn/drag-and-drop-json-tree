@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<title>Drag'n'Drop Tree App</title>
-	<link rel="stylesheet" href="stylesheets/style.css"> <!-- custom styles -->
+	<link rel="stylesheet" href="stylesheets/style.css">
+	<!-- custom styles -->
 	<!-- angualr libs -->
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 	<!-- Angular Custom -->
@@ -12,20 +14,31 @@
 	<script src="javascripts/app/services/service.js"></script>
 	<script src="javascripts/app/directives.js"></script>
 </head>
+
 <body ng-app="dndTreeApp">
 	<div>
 		<h1>Drag'n'Drop Tree Application</h1>
 		<hr>
-		<div style="min-height:100px;min-widht:50px; border:3px solid black;" ng-droppable></div>
+		<!--<div style="min-height:100px;min-widht:50px; border:3px solid black;" ng-droppable></div>-->
 		<div ng-controller="TreeController">
-			<ng-dom-manipulator 
+			<ng-dom-tree 
 				style="background-color: #000" 
-				tree="exampleJson" 
+				ng-model = "treeJson"
 				class="tree" 
-				ng-draggable
+				ng-draggable 
 				ng-droppable>
-			</ng-dom-manipulator>	
+			</ng-dom-tree>
+
+			<div class="debug">
+				<div class="init_json">
+					<pre>{{debug | json:4 }}</pre>
+				</div>
+				<div class="init_json">
+					<pre>{{treeJson | json:4 }}</pre>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>
+
 </html>

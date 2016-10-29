@@ -1,90 +1,91 @@
 (function () {
 
 	angular.module('dndTreeApp.directives')
-		.directive('ngDomManipulator', ngDomManipulator)
+		.directive('ngDomTree', ngDomTree)
 		.directive('ngDraggable', ngDraggable)
-		.directive('ngDroppable', ngDroppable);
+		.directive('ngDroppable', ngDroppable)
+		.directive('ngFormatter', ngFormatter);
 
-	ngDomManipulator.$inject = [];
-
-	function ngDomManipulator() {
+	ngDomTree.$inject = [];
+	function ngDomTree() {
 
 		var isEmpty = function (object) {
-
 			for (var key in object) {
 				return false;
 			}
 			return true;
 		};
-
-		function createTree(tree, list) {
+		var createInput = function (text, ...className) {
+			var input = document.createElement('input');
+			input.type = 'text';
+			input.value = text;
+			input.classList = [...className].join(' ');
+			input.readOnly = true;
+			return input;
+		};
+		var createTree = function (tree, list) {
 			for (var branch in tree) {
 				var li = document.createElement('li');
 				if (tree[branch] instanceof Array) {
-					li.innerHTML = branch;
-					li.className = "tree__array";
-					// li.draggable= true;
+					li.appendChild(createInput(branch, 'tree__array'));
+					li.className = 'tree__node';
 				} else if (tree[branch] instanceof Object) {
-					li.innerHTML = branch;
-					li.className = "tree__object";
-					// li.draggable= true;
+					li.appendChild(createInput(branch, 'tree__object'));
+					li.className = 'tree__node';
 				} else {
-					var p = document.createElement('p');
-					p.className = 'tree__p';
-					p.innerHTML = tree[branch];
-					// p.draggable= true;
-					li.innerHTML = branch;
-					li.appendChild(p);
+					li.appendChild(createInput(branch, 'tree__branch_value'));
+					li.appendChild(createInput(tree[branch], 'tree__branch_leaf_value'));
+					li.classList = 'tree__branch';
 				}
-
 				list.appendChild(li);
 				if (tree[branch] instanceof Array || tree[branch] instanceof Object) {
-					var ul = document.createElement('ul');
-					list.appendChild(ul);
+					var li = document.createElement('li'),
+						ul = document.createElement('ul');
+					li.appendChild(ul);
+					list.appendChild(li);
 					createTree(tree[branch], ul);
 				}
 			}
 		}
-
-
 		return {
 			restrict: 'E',
 			replace: true,
-			scope: {
-				tree: '='
-			},
 			link: function (scope, elt, attrs) {
-				scope.$watch('tree', function (data) {
-					if (isEmpty(data)) return;
-					elt.append(angular.element('<ul></ul>'));
+				var self = elt;
+				scope.$watch('treeJson', function (data) {
+					if (isEmpty(data))
+						return;
+					elt.append(document.createElement('ul'));
 					createTree(data, document.getElementsByTagName('ul')[0]);
-				}, true);
+				});
+
 			}
 		}
 	}
 
-	ngDraggable.$inject = [];
 
+	ngDraggable.$inject = [];
 	function ngDraggable() {
 		return {
 			restrict: 'A',
 			link: function (scope, elt, attrs) {
 				elt.on('mouseover', function (e) {
+
 					var touchedElt = e.target || event.target;
+					if (touchedElt.tagName != 'INPUT')
+						return;
+
 					touchedElt.draggable = true;
-					// console.log(`touchedElt: ${touchedElt}, draggable: ${touchedElt.draggable}`);
 
 					touchedElt.addEventListener(
 						'dragstart',
 						function (e) {
-							var _this = e.target.parentNode;
-							_this.id = 'dragged';
+							this.id = 'dragged';
 							e.dataTransfer.effectAllowed = 'move';
-							e.dataTransfer.setData('Text', _this.id);
-							_this.classList.add('drag');
+							e.dataTransfer.setData('Text', this.id);
+							this.classList.add('drag');
 							//debug
-							e.target.parentNode.style.opacity = '.5';
-							// console.log(_this.classList);
+							e.target.style.opacity = '.5';
 							return false;
 						},
 						false
@@ -93,9 +94,9 @@
 					touchedElt.addEventListener(
 						'dragend',
 						function (e) {
-							var _this = e.target.parentNode;
-							_this.classList.remove('drag');
-							// console.log(_this.classList);
+							this.classList.remove('drag');
+							//debug
+							e.target.style.opacity = '1';
 							return false;
 						},
 						false
@@ -108,73 +109,99 @@
 
 	ngDroppable.$inject = [];
 	function ngDroppable() {
+		var result = {};
+		var count = 1;
+		var parseTreeToDOM = function(tree){
+
+			/**IN DEV! */
+			if(tree.tagName == 'UL'){
+				parseTreeToDOM(tree.children);
+			}
+			if(tree instanceof Object){
+				for(let i=0;i<tree.length;i++){
+					if(!tree[i].className){
+						parseTreeToDOM(tree[i]);
+					}else if(tree[i].className == 'tree__node'){
+						result[tree[i].children[0].text] = tree[i+1].text;
+						
+					}
+				}
+				
+			}
+			return {example: count++};
+		}
 		return {
 			restrict: 'A',
 			link: function (scope, elt, attrs) {
 				elt.on('mouseover', function (e) {
-					var hoveredElt = e.target;
-					hoveredElt.classList.add('navigator');
-					// console.log(hoveredElt);
-					hoveredElt.addEventListener(
+
+					var droppableElt = e.target || event.target;
+					if (!droppableElt.classList.contains('tree__node') && !droppableElt.classList.contains('tree__branch'))
+						return;
+
+					droppableElt.addEventListener(
 						'dragover',
 						function (e) {
-							var _this = e.target.parentNode;
+
+							this.classList.add('navigator');
 							e.dataTransfer.dropEffect = 'move';
-							// allows us to drop
-							if (e.preventDefault) e.preventDefault();
-							_this.classList.add('over');
+							if (e.preventDefault)
+								e.preventDefault();
+							this.classList.add('over');
 							return false;
 						},
 						false
 					);
 
-					hoveredElt.addEventListener(
+					droppableElt.addEventListener(
 						'dragenter',
 						function (e) {
-							var _this = e.target.parentNode;
-							_this.classList.add('over');
+							this.classList.add('over');
 							return false;
 						},
 						false
 					);
 
-					hoveredElt.addEventListener(
+					droppableElt.addEventListener(
 						'dragleave',
 						function (e) {
-							var _this = e.target.parentNode;
-							_this.classList.remove('over');
+							this.classList.remove('over');
+							this.classList.remove('navigator');
 							return false;
 						},
 						false
 					);
 
-					hoveredElt.addEventListener(
+					droppableElt.addEventListener(
 						'drop',
 						function (e) {
-							// var _this = e.target.parentNode;
+
 							if (e.stopPropagation) e.stopPropagation();
-
 							this.classList.remove('over');
-
-							var item = document.getElementById(e.dataTransfer.getData('Text'));
-							console.log(`this: ${this} item: ${item}`);
+							let item = document.getElementById(e.dataTransfer.getData('Text'));
 							this.appendChild(item);
-
+							item.id = '';
+							scope.treeJson = parseTreeToDOM(elt[0].children[0]);
+							scope.$digest();
 							return false;
 						},
 						false
 					);
-
-					hoveredElt.addEventListener('mouseout', function (e) {
-						e.target.classList.remove('navigator');
-					});
 				});
+			}
+		}
+	}
 
+	ngFormatter.$inject = [];
+	function ngFormatter() {
+		return {
+			restrict: 'A',
+			link: function (scope, elt, attrs) {
 
 			}
 		}
 	}
 
-
 })();
+
 

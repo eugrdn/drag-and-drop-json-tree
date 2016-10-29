@@ -7,7 +7,7 @@
 	function treeService($http) {
 		var factory = {};
 		factory.getTree = function () {
-			return $http.get('/src/example.json');
+			return $http.get('/src/exampleNoArray.json');
 		};
 		return factory;
 	}
