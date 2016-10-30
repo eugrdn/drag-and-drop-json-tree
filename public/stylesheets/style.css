@@ -1,10 +1,10 @@
 body 
 {
-  padding: 0;
-  margin: 0; 
+	padding: 0;
+	margin: 0; 
 	color: #3d3741;
-  background-color: #f2f2f2;
-  font-family: Georgia, serif, "Calibri";
+	background-color: #f2f2f2;
+	font-family: Georgia, serif, "Calibri";
 }
 
 h1{ text-align: center; }
@@ -26,7 +26,9 @@ input{
 }
 ul li
 {	
-	margin: 10px;
+	margin: 5px;
+	float:left;
+    clear:left;
 }
 input:hover
 {
@@ -52,6 +54,7 @@ input:hover
 .navigator
 {
 	background-color: #f1f;
+	display: inline-block;
 }
 
 /*debug*/

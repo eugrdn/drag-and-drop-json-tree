@@ -51,11 +51,11 @@
 			restrict: 'E',
 			replace: true,
 			link: function (scope, elt, attrs) {
-				var self = elt;
 				scope.$watch('treeJson', function (data) {
-					if (isEmpty(data))
-						return;
-					elt.append(document.createElement('ul'));
+					if (isEmpty(data)) return;
+					if (elt[0].firstChild)
+						elt[0].removeChild(elt[0].firstChild);
+					elt[0].appendChild(document.createElement('ul'));
 					createTree(data, document.getElementsByTagName('ul')[0]);
 				});
 
@@ -109,27 +109,33 @@
 
 	ngDroppable.$inject = [];
 	function ngDroppable() {
-		var result = {};
-		var count = 1;
-		var parseTreeToDOM = function(tree){
 
-			/**IN DEV! */
-			if(tree.tagName == 'UL'){
-				parseTreeToDOM(tree.children);
+		var parseTreeToDOM = function parse(tree, object) {
+			var object = object || {};
+			if (tree.tagName === 'UL' || (tree.tagName === 'LI' && tree.className === '')) {
+				parse(tree.children, object);
 			}
-			if(tree instanceof Object){
-				for(let i=0;i<tree.length;i++){
-					if(!tree[i].className){
-						parseTreeToDOM(tree[i]);
-					}else if(tree[i].className == 'tree__node'){
-						result[tree[i].children[0].text] = tree[i+1].text;
-						
+			for (var i = 0; i < tree.length; i++) {
+				if (tree[i].className === 'tree__branch') {
+					if (object instanceof Array) {
+						console.log('a')
+						object.push(tree[i].lastChild.value);
+					} else if (object instanceof Object) {
+						console.log('o')
+						object[tree[i].firstChild.value] = tree[i].lastChild.value;
 					}
+				} else if (tree[i].className === 'tree__node') {
+					if (tree[i].firstChild.className === 'tree__object') {
+						object[tree[i].firstChild.value] = {};
+					} else if (tree[i].firstChild.className === 'tree__array') {
+						object[tree[i].firstChild.value] = [];
+					}
+					parse(tree[i + 1].children[0], object[tree[i].firstChild.value]);
 				}
-				
 			}
-			return {example: count++};
-		}
+			return object;
+		};
+
 		return {
 			restrict: 'A',
 			link: function (scope, elt, attrs) {
