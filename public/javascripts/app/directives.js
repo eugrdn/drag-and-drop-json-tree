@@ -112,9 +112,8 @@
 
 		var parseTreeToDOM = function parse(tree, object) {
 			var object = object || {};
-			if (tree.tagName === 'UL' || (tree.tagName === 'LI' && tree.className === '')) {
+			if (tree.tagName === 'UL' || (tree.tagName === 'LI' && tree.className === ''))
 				parse(tree.children, object);
-			}
 			for (var i = 0; i < tree.length; i++) {
 				if (tree[i].className === 'tree__branch') {
 					if (object instanceof Array)

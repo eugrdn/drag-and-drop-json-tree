@@ -11,3 +11,15 @@ Task conditions and restrictions:
 * can't use external Angular modules
 * can't use external librarys like jQuery and etc.
 * create node adding deleting and saving functions
+
+Goals:
+- [x] reading json from file func
+- [x] display json in a DOM tree on the WEB page
+- [x] parsing func json->DOM & DOM->json
+- [ ] adding/removing nodes func
+- [ ] drag'n'drop nodes func 
+- [ ] saveing result in the file func  
+
+Preview:
+
+![alt tag](https://github.com/rodinwow/screenshots/blob/master/d'n'd-tree.png)
