@@ -117,19 +117,15 @@
 			}
 			for (var i = 0; i < tree.length; i++) {
 				if (tree[i].className === 'tree__branch') {
-					if (object instanceof Array) {
-						console.log('a')
+					if (object instanceof Array)
 						object.push(tree[i].lastChild.value);
-					} else if (object instanceof Object) {
-						console.log('o')
+					else if (object instanceof Object)
 						object[tree[i].firstChild.value] = tree[i].lastChild.value;
-					}
 				} else if (tree[i].className === 'tree__node') {
-					if (tree[i].firstChild.className === 'tree__object') {
+					if (tree[i].firstChild.className === 'tree__object')
 						object[tree[i].firstChild.value] = {};
-					} else if (tree[i].firstChild.className === 'tree__array') {
+					else if (tree[i].firstChild.className === 'tree__array')
 						object[tree[i].firstChild.value] = [];
-					}
 					parse(tree[i + 1].children[0], object[tree[i].firstChild.value]);
 				}
 			}
