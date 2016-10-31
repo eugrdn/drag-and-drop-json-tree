@@ -21,7 +21,8 @@
     "debug": "~2.2.0",
     "domjson": "^0.1.2",
     "express": "~4.13.4",
-    "jade": "~1.11.0"
+    "jade": "~1.11.0",
+    "jsonfile": "^2.4.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

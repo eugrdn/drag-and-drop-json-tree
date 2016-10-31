@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
+var handler = require('../handlers/fileHandler');
+
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.route('/')
+  .get(handler.readFile)
+  .post(handler.saveFile);
 
 module.exports = router;

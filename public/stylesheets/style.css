@@ -15,7 +15,7 @@ ul{ list-style-type: none; }
 
 
 ul li[class='tree__branch']::before{
-	/*content: '—';*/
+	content: '—';
 	margin: 0 10px;	
 	display: inline-block;
 }
@@ -48,7 +48,7 @@ input:hover
 }
 .tree__branch_value{
 	color: #eee;
-	background-color: #8c8194;
+	background-color: #941;
 }
 .tree__branch_leaf_value{ background-color: #0d0; }
 .navigator
@@ -56,7 +56,26 @@ input:hover
 	background-color: #f1f;
 	display: inline-block;
 }
-
+.buttons-list
+{
+	position: fixed;
+	bottom: 50px;
+	right: 50px;
+}
+.btn
+{	
+	display: inline-block;
+	padding: 1em 1.3em;
+	border-radius: 5px;
+	background-color: #d22;
+	color: #fff;
+	opacity: .7;
+}
+.btn:hover
+{
+	cursor: pointer;
+	opacity: 1;
+}
 /*debug*/
 .debug
 {

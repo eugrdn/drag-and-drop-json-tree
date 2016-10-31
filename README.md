@@ -18,7 +18,7 @@ Goals:
 - [x] parsing func json->DOM & DOM->json
 - [ ] adding/removing nodes func
 - [ ] drag'n'drop nodes func 
-- [ ] saveing result in the file func  
+- [x] saving result in the file func  
 
 Preview:
 

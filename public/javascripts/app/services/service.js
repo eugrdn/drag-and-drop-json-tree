@@ -1,14 +1,20 @@
-(function() {
+(function () {
 	angular.module('dndTreeApp.services')
-			.factory('treeService', treeService);
+		.factory('treeService', treeService);
 
 	treeService.$inject = ['$http'];
 
 	function treeService($http) {
 		var factory = {};
+		
 		factory.getTree = function () {
-			return $http.get('/src/example.json');
+			return $http.get('/users');
 		};
+
+		factory.saveTree = function (treeJson) {
+			return $http.post('/users', { json: treeJson });
+		}
+		
 		return factory;
 	}
 })();

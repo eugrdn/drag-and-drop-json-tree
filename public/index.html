@@ -19,16 +19,22 @@
 	<div>
 		<h1>Drag'n'Drop Tree Application</h1>
 		<hr>
-		<!--<div style="min-height:100px;min-widht:50px; border:3px solid black;" ng-droppable></div>-->
 		<div ng-controller="TreeController">
+
 			<ng-dom-tree 
 				style="background-color: #000" 
-				ng-model = "treeJson"
+				ng-model="treeJson" 
 				class="tree" 
 				ng-draggable 
 				ng-droppable>
 			</ng-dom-tree>
 
+			<div class="buttons-list">
+				<button class="btn btn-edit" ng-click="edit(e)">edit</button>
+				<button class="btn btn-save" ng-click="saveToFile(treeJson)">save</button>
+				<button class="btn btn-node-add">add node</button>
+				<button class="btn btn-node-remove">remove node</button>	
+			</div>
 			<div class="debug">
 				<div class="init_json">
 					<h3>Init</h3>
