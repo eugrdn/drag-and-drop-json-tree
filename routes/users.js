@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var handler = require('../handlers/fileHandler');
+var handler = require('../handlers/fileProcesser');
 
 
 /* GET users listing. */
