@@ -14,15 +14,12 @@ hr{ width: 20%; }
 ul{ list-style-type: none; }
 
 
-ul li[class='tree__branch']::before{
-	content: '—';
-	margin: 0 10px;	
-	display: inline-block;
-}
-input{
+input
+{
 	border: 0;
 	padding: 5px;
 	margin: 5px;
+	border-radius: 5px;
 }
 ul li
 {	
@@ -30,11 +27,35 @@ ul li
 	float:left;
     clear:left;
 }
+
+ul li[class='tree__branch']::before{
+	content: '—';
+	margin: 0 10px;	
+	display: inline-block;
+	cursor: pointer;
+}
+
+ul li[class='tree__branch']:hover> input
+{
+	background-color:#84c6f9;
+}
+
 input:hover
 {
 	cursor: pointer;
 }
+.tree__node > input{display: block;}
 
+.tree__node > input[class='tree__object']:hover,
+.tree__node > input[class='tree__array']:hover 
+{
+	background-color: #84c6f9;
+}
+.tree__node > input[class='tree__object']:hover ~ *,
+.tree__node > input[class='tree__array']:hover ~ *
+{
+	background-color: #bce0fc;
+}
 .tree__object
 {
 	color: #eee;

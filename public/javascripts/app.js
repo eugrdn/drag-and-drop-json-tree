@@ -1,4 +1,4 @@
-(function() {
+(function () {
 	angular.module('dndTreeApp.controllers', []);
 	angular.module('dndTreeApp.directives', []);
 	angular.module('dndTreeApp.services', []);
