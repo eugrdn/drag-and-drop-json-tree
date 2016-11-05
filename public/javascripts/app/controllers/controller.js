@@ -1,4 +1,5 @@
 (function() {
+    'use strict'
 
     angular.module('dndTreeApp.controllers')
         .controller('TreeController', TreeController);
@@ -8,6 +9,7 @@
     function TreeController(treeService, $scope, $http) {
 
         $scope.treeJson = '';
+        $scope.editState = false;
         $scope.addState = false;
         $scope.rmState = false;
         
@@ -44,8 +46,11 @@
             });
 
         
-        $scope.edit = function(treeJson) {
-			console.log(treeJson);
+        $scope.edit = function($event) {
+			$event.preventDefault();
+            $scope.addState = false;
+            $scope.rmState = false;
+            $scope.editState = !$scope.editState;
         };
 
         $scope.saveToFile = function(treeJson) {
@@ -61,12 +66,14 @@
         $scope.addNodes = function($event){
             $event.preventDefault();
             $scope.rmState = false;
+            $scope.editState = false;
             $scope.addState = !$scope.addState;
         }
 
         $scope.removeNodes = function($event){
             $event.preventDefault();
             $scope.addState = false;
+            $scope.editState = false;
             $scope.rmState = !$scope.rmState;
         }
         

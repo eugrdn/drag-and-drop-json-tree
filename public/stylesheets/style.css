@@ -79,6 +79,7 @@ ul li[class='tree__branch']:hover> input{ background-color:#84a6f9; }
 	opacity: .7;
 }
 .btn:focus{ outline:0; }
+ input[type='text']:focus{ outline:0; }
 .btn:hover
 {	
 	background-color: #fff;
@@ -96,6 +97,11 @@ ul li[class='tree__branch']:hover> input{ background-color:#84a6f9; }
 {
 	opacity: .7;
 	box-shadow: 2px 2px #d22, -2px -2px #d22;
+}
+.editable
+{
+	text-decoration: underline;
+	/*background-color: #fff;*/
 }
 /*debug*/
 .debug{ margin: 40px; }

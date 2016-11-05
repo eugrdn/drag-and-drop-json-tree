@@ -1,11 +1,13 @@
 (function () {
+	'use strict'
 
 	angular.module('dndTreeApp.directives')
 		.directive('ngDomTree', ngDomTree)
 		.directive('ngDraggable', ngDraggable)
 		.directive('ngDroppable', ngDroppable)
 		.directive('ngAdd', ngAdd)
-		.directive('ngRemove', ngRemove);
+		.directive('ngRemove', ngRemove)
+		.directive('ngEdit', ngEdit);
 
 	ngDomTree.$inject = [];
 
@@ -71,9 +73,8 @@
 
 				list.appendChild(li);
 			}
-		}
+		};
 
-		
 		var parseTreeToDOM = function parse(tree, object) {
 			var object = object || {};
 
@@ -129,11 +130,10 @@
 
 				});
 
-				elt[0].addEventListener('mouseover',function(){
-					console.log('update');
-					scope.treeJson = parseTreeToDOM(elt[0].children[0]);
-					scope.$digest();
-				});
+				// elt[0].addEventListener('mouseover',function(){
+				// 	scope.treeJson = parseTreeToDOM(elt[0].children[0]);
+				// 	scope.$digest();
+				// });
 
 			}
 		}
@@ -276,8 +276,6 @@
 					}
 
 					item.id = '';
-					// updates treeJson immidiatly (activates watcher in ngDomTree directive)
-					// scope.$digest(); 
 
 				});
 
@@ -382,6 +380,36 @@
 
 					if (scope.rmState) {
 						parent.parentNode.removeChild(parent);
+					}
+
+				});
+			}
+		}
+	}
+
+	ngEdit.$inject = [];
+
+	function ngEdit() {
+		return {
+			restrict: 'A',
+			link: function (scope, elt, attrs) {
+				scope.$watch('editState', function (data) {
+					var nodes = [...elt[0].getElementsByTagName('INPUT')];
+
+					if (data) {
+
+						for (var i = 0; i < nodes.length; i++) {
+							nodes[i].classList.add('editable');
+							nodes[i].readOnly = false;
+						}
+
+					} else {
+
+						for (var i = 0; i < nodes.length; i++) {
+							nodes[i].classList.remove('editable');
+							nodes[i].readOnly = true;
+						}
+
 					}
 
 				});
