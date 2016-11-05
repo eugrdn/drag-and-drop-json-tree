@@ -26,14 +26,16 @@
 				ng-model="treeJson" 
 				class="tree" 
 				ng-draggable 
-				ng-droppable>
+				ng-droppable
+				ng-add
+				ng-remove>
 			</ng-dom-tree>
 
 			<div class="buttons-list">
-				<button class="btn btn-edit" ng-click="edit(e)">edit</button>
+				<button class="btn btn-edit" ng-click="edit(treeJson)">edit</button>
 				<button class="btn btn-save" ng-click="saveToFile(treeJson)">save</button>
-				<button class="btn btn-node-add">add node</button>
-				<button class="btn btn-node-remove">remove node</button>	
+				<button class="btn btn-node-add" ng-click="addNodes($event)">add node</button>
+				<button class="btn btn-node-remove" ng-click="removeNodes($event)">remove node</button>	
 			</div>
 			<div class="debug">
 				<div class="init_json">

@@ -3,7 +3,9 @@
 	angular.module('dndTreeApp.directives')
 		.directive('ngDomTree', ngDomTree)
 		.directive('ngDraggable', ngDraggable)
-		.directive('ngDroppable', ngDroppable);
+		.directive('ngDroppable', ngDroppable)
+		.directive('ngAdd', ngAdd)
+		.directive('ngRemove', ngRemove);
 
 	ngDomTree.$inject = [];
 
@@ -35,6 +37,7 @@
 				var li = document.createElement('li');
 				var _li = document.createElement('li');
 				var _ul = document.createElement('ul');
+				var __ul = document.createElement('ul');
 
 				if (tree[branch] instanceof Array) {
 
@@ -59,8 +62,9 @@
 
 				if (tree[branch] instanceof Array || tree[branch] instanceof Object) {
 
+					__ul.appendChild(_li);
 					_li.appendChild(_ul);
-					li.appendChild(_li);
+					li.appendChild(_ul);
 					createTree(tree[branch], _ul);
 
 				}
@@ -68,6 +72,41 @@
 				list.appendChild(li);
 			}
 		}
+
+		
+		var parseTreeToDOM = function parse(tree, object) {
+			var object = object || {};
+
+			if (tree.tagName === 'UL' || (tree.tagName === 'LI' && tree.className === '')) {
+				parse(tree.children, object);
+			}
+
+			for (var i = 0; i < tree.length; i++) {
+
+				if (tree[i].className === 'tree__branch') {
+
+					if (object instanceof Array) {
+						object.push(tree[i].lastChild.value);
+					} else if (object instanceof Object) {
+						object[tree[i].firstChild.value] = tree[i].lastChild.value;
+					}
+
+				} else if (tree[i].className === 'tree__node') {
+
+					if (tree[i].firstChild.className === 'tree__object') {
+						object[tree[i].firstChild.value] = {};
+					} else if (tree[i].firstChild.className === 'tree__array') {
+						object[tree[i].firstChild.value] = [];
+					}
+
+					parse(tree[i].lastChild, object[tree[i].firstChild.value]);
+
+				}
+
+			}
+
+			return object;
+		};
 
 		return {
 			restrict: 'E',
@@ -88,6 +127,12 @@
 
 					createTree(data, document.getElementsByTagName('ul')[0]);
 
+				});
+
+				elt[0].addEventListener('mouseover',function(){
+					console.log('update');
+					scope.treeJson = parseTreeToDOM(elt[0].children[0]);
+					scope.$digest();
 				});
 
 			}
@@ -139,38 +184,6 @@
 
 	function ngDroppable() {
 
-		var parseTreeToDOM = function parse(tree, object) {
-			var object = object || {};
-
-			if (tree.tagName === 'UL' || (tree.tagName === 'LI' && tree.className === '')) {
-				parse(tree.children, object);
-			}
-
-			for (var i = 0; i < tree.length; i++) {
-
-				if (tree[i].className === 'tree__branch') {
-
-					if (object instanceof Array) {
-						object.push(tree[i].lastChild.value);
-					} else if (object instanceof Object) {
-						object[tree[i].firstChild.value] = tree[i].lastChild.value;
-					}
-
-				} else if (tree[i].className === 'tree__node') {
-
-					if (tree[i].firstChild.className === 'tree__object') {
-						object[tree[i].firstChild.value] = {};
-					} else if (tree[i].firstChild.className === 'tree__array') {
-						object[tree[i].firstChild.value] = [];
-					}
-					parse(tree[i + 1].children[0], object[tree[i].firstChild.value]);
-				}
-
-			}
-
-			return object;
-		};
-
 		return {
 			restrict: 'A',
 			link: function (scope, elt, attrs) {
@@ -181,14 +194,6 @@
 
 					if (droppableElt.tagName != 'INPUT' && !(parent.className === 'tree__node' || parent.className === 'tree__branch')) {
 						return;
-					}
-
-					if (parent.classList.contains('tree__branch')) {
-						parent.children[0].classList.add('navigator');
-						parent.children[1].classList.add('navigator');
-
-					} else {
-						droppableElt.classList.add('navigator');
 					}
 
 					e.dataTransfer.dropEffect = 'move';
@@ -207,6 +212,14 @@
 
 					if (droppableElt.tagName != 'INPUT' && !(parent.className === 'tree__node' || parent.className === 'tree__branch')) {
 						return;
+					}
+
+					if (parent.classList.contains('tree__branch')) {
+						parent.children[0].classList.add('navigator');
+						parent.children[1].classList.add('navigator');
+
+					} else {
+						droppableElt.classList.add('navigator');
 					}
 
 					parent.classList.add('over');
@@ -229,7 +242,6 @@
 						droppableElt.classList.remove('navigator');
 					}
 
-
 					parent.classList.remove('navigator');
 
 				});
@@ -247,21 +259,132 @@
 						e.stopPropagation();
 					}
 
+					if (parent.classList.contains('tree__branch')) {
+						parent.children[0].classList.remove('navigator');
+						parent.children[1].classList.remove('navigator');
+
+					} else {
+						droppableElt.classList.remove('navigator');
+					}
+
 					parent.classList.remove('over');
 
 					if (parent.className === 'tree__node') {
-						parent.appendChild(item);
+						parent.lastChild.appendChild(item);
 					} else if (parent.className === 'tree__branch') {
-						parent.insertBefore(item,droppableElt.nextSibling);
+						parent.parentNode.insertBefore(item, parent);
 					}
 
 					item.id = '';
-
-					scope.treeJson = parseTreeToDOM(elt[0].children[0]);
-					scope.$digest();
+					// updates treeJson immidiatly (activates watcher in ngDomTree directive)
+					// scope.$digest(); 
 
 				});
 
+			}
+		}
+	}
+
+	ngAdd.$inject = [];
+
+	function ngAdd() {
+
+		var createInput = function (text, ...className) {
+			var input = document.createElement('input');
+
+			input.type = 'text';
+			input.value = text;
+			input.classList = [...className].join(' ');
+			input.readOnly = true;
+
+			return input;
+		};
+
+		var createBranch = function (branchValue, leafValue) {
+			var branch = document.createElement('li');
+
+			branch.appendChild(createInput(branchValue, 'tree__branch_value'));
+			branch.appendChild(createInput(leafValue, 'tree__branch_leaf_value'));
+			branch.classList.add('tree__branch');
+			branch.draggable = true;
+
+			return branch;
+		}
+
+		return {
+			restrict: 'A',
+			link: function (scope, elt, attrs) {
+
+				scope.$watch('addState', function (data) {
+					var nodes = [...elt[0].getElementsByTagName('INPUT')].filter(function (item) {
+						return item.classList.contains('tree__object') || item.classList.contains('tree__array');
+					});
+
+					if (data) {
+						for (var i = 0; i < nodes.length; i++) {
+							nodes[i].classList.add('addable');
+						}
+					} else {
+						for (var i = 0; i < nodes.length; i++) {
+							nodes[i].classList.remove('addable');
+						}
+					}
+
+				});
+
+				elt[0].addEventListener('click', function (e) {
+					var clickedElt = e.target || event.target;
+					var parent = clickedElt.parentNode;
+
+					if (clickedElt.tagName != 'INPUT' && !(parent.className === 'tree__object' || parent.className === 'tree__array')) {
+						return;
+					}
+
+					var newBranch = createBranch('new branch', 'new leaf')
+
+					if (scope.addState) {
+						parent.lastChild.appendChild(newBranch);
+					}
+				});
+
+			}
+		}
+	}
+
+	ngRemove.$inject = [];
+
+	function ngRemove() {
+		return {
+			restrict: 'A',
+			link: function (scope, elt, attrs) {
+				scope.$watch('rmState', function (data) {
+					var nodes = [...elt[0].getElementsByTagName('INPUT')];
+
+					if (data) {
+						for (var i = 0; i < nodes.length; i++) {
+							nodes[i].classList.add('removable');
+						}
+					} else {
+						for (var i = 0; i < nodes.length; i++) {
+							nodes[i].classList.remove('removable');
+						}
+					}
+
+				});
+
+				elt[0].addEventListener('click', function (e) {
+					var clickedElt = e.target || event.target;
+					var parent = clickedElt.parentNode;
+
+					if (clickedElt.tagName != 'INPUT') {
+						return;
+					}
+
+					if (scope.rmState) {
+						parent.parentNode.removeChild(parent);
+					}
+
+				});
 			}
 		}
 	}

@@ -16,8 +16,8 @@ Goals:
 - [x] reading json from file func
 - [x] display json in a DOM tree on the WEB page
 - [x] parsing func json->DOM & DOM->json
-- [ ] adding/removing nodes func
-- [ ] drag'n'drop nodes func 
+- [x] adding/removing nodes func
+- [x] drag'n'drop nodes func (**NOT WORKING**)
 - [x] saving result in the file func  
 
 Preview:
