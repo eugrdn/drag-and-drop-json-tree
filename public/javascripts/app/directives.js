@@ -5,7 +5,8 @@
 		.directive('ngDomTree', ngDomTree)
 		.directive('ngDraggable', ngDraggable)
 		.directive('ngDroppable', ngDroppable)
-		.directive('ngAdd', ngAdd)
+		.directive('ngAddBranch', ngAddBranch)
+		.directive('ngAddNode', ngAddNode)
 		.directive('ngRemove', ngRemove)
 		.directive('ngEdit', ngEdit);
 
@@ -28,6 +29,7 @@
 			input.value = text;
 			input.classList = [...className].join(' ');
 			input.readOnly = true;
+			input.size = text.length || 5;
 
 			return input;
 		};
@@ -75,40 +77,6 @@
 			}
 		};
 
-		var parseTreeToDOM = function parse(tree, object) {
-			var object = object || {};
-
-			if (tree.tagName === 'UL' || (tree.tagName === 'LI' && tree.className === '')) {
-				parse(tree.children, object);
-			}
-
-			for (var i = 0; i < tree.length; i++) {
-
-				if (tree[i].className === 'tree__branch') {
-
-					if (object instanceof Array) {
-						object.push(tree[i].lastChild.value);
-					} else if (object instanceof Object) {
-						object[tree[i].firstChild.value] = tree[i].lastChild.value;
-					}
-
-				} else if (tree[i].className === 'tree__node') {
-
-					if (tree[i].firstChild.className === 'tree__object') {
-						object[tree[i].firstChild.value] = {};
-					} else if (tree[i].firstChild.className === 'tree__array') {
-						object[tree[i].firstChild.value] = [];
-					}
-
-					parse(tree[i].lastChild, object[tree[i].firstChild.value]);
-
-				}
-
-			}
-
-			return object;
-		};
-
 		return {
 			restrict: 'E',
 			replace: true,
@@ -123,22 +91,18 @@
 					if (elt[0].firstChild) {
 						elt[0].removeChild(elt[0].firstChild);
 					}
+					
+					var tree = document.createElement('ul');
+					tree.id = 'tree_container';
+					elt[0].appendChild(tree);
 
-					elt[0].appendChild(document.createElement('ul'));
-
-					createTree(data, document.getElementsByTagName('ul')[0]);
+					createTree(data, document.getElementById('tree_container'));
 
 				});
-
-				// elt[0].addEventListener('mouseover',function(){
-				// 	scope.treeJson = parseTreeToDOM(elt[0].children[0]);
-				// 	scope.$digest();
-				// });
 
 			}
 		}
 	}
-
 
 	ngDraggable.$inject = [];
 
@@ -283,9 +247,9 @@
 		}
 	}
 
-	ngAdd.$inject = [];
+	ngAddBranch.$inject = [];
 
-	function ngAdd() {
+	function ngAddBranch() {
 
 		var createInput = function (text, ...className) {
 			var input = document.createElement('input');
@@ -294,6 +258,7 @@
 			input.value = text;
 			input.classList = [...className].join(' ');
 			input.readOnly = true;
+			input.size = text.length || 5;
 
 			return input;
 		};
@@ -313,19 +278,23 @@
 			restrict: 'A',
 			link: function (scope, elt, attrs) {
 
-				scope.$watch('addState', function (data) {
+				scope.$watch('states.addBranchState', function (data) {
 					var nodes = [...elt[0].getElementsByTagName('INPUT')].filter(function (item) {
 						return item.classList.contains('tree__object') || item.classList.contains('tree__array');
 					});
 
 					if (data) {
+
 						for (var i = 0; i < nodes.length; i++) {
-							nodes[i].classList.add('addable');
+							nodes[i].classList.add('branch_addable');
 						}
+
 					} else {
+
 						for (var i = 0; i < nodes.length; i++) {
-							nodes[i].classList.remove('addable');
+							nodes[i].classList.remove('branch_addable');
 						}
+
 					}
 
 				});
@@ -340,8 +309,75 @@
 
 					var newBranch = createBranch('new branch', 'new leaf')
 
-					if (scope.addState) {
+					if (scope.states.addBranchState) {
 						parent.lastChild.appendChild(newBranch);
+					}
+				});
+
+			}
+		}
+	}
+
+	ngAddNode.$inject = [];
+
+	function ngAddNode() {
+
+		var createInput = function (text, ...className) {
+			var input = document.createElement('input');
+
+			input.type = 'text';
+			input.value = text;
+			input.classList = [...className].join(' ');
+			input.size = text.length || 5;
+			input.readOnly = true;
+
+			return input;
+		};
+
+		var createNode = function (nodeValue) {
+			var node = document.createElement('li');
+
+			node.appendChild(createInput(nodeValue, 'tree__object'));
+			node.appendChild(document.createElement('ul'));
+			node.classList.add('tree__node');
+			node.draggable = true;
+
+			return node;
+		}
+
+		return {
+			restrict: 'A',
+			link: function (scope, elt, attrs) {
+
+				scope.$watch('states.addNodeState', function (data) {
+					var nodes = [...elt[0].getElementsByTagName('INPUT')].filter(function (item) {
+						return item.classList.contains('tree__object') || item.classList.contains('tree__array');
+					});
+
+					if (data) {
+						for (var i = 0; i < nodes.length; i++) {
+							nodes[i].classList.add('node_addable');
+						}
+					} else {
+						for (var i = 0; i < nodes.length; i++) {
+							nodes[i].classList.remove('node_addable');
+						}
+					}
+
+				});
+
+				elt[0].addEventListener('click', function (e) {
+					var clickedElt = e.target || event.target;
+					var parent = clickedElt.parentNode;
+
+					if (clickedElt.tagName != 'INPUT' && !(parent.className === 'tree__object' || parent.className === 'tree__array')) {
+						return;
+					}
+
+					var newNode = createNode('new node');
+
+					if (scope.states.addNodeState) {
+						parent.lastChild.appendChild(newNode);
 					}
 				});
 
@@ -355,7 +391,7 @@
 		return {
 			restrict: 'A',
 			link: function (scope, elt, attrs) {
-				scope.$watch('rmState', function (data) {
+				scope.$watch('states.removeState', function (data) {
 					var nodes = [...elt[0].getElementsByTagName('INPUT')];
 
 					if (data) {
@@ -378,7 +414,7 @@
 						return;
 					}
 
-					if (scope.rmState) {
+					if (scope.states.removeState) {
 						parent.parentNode.removeChild(parent);
 					}
 
@@ -393,7 +429,7 @@
 		return {
 			restrict: 'A',
 			link: function (scope, elt, attrs) {
-				scope.$watch('editState', function (data) {
+				scope.$watch('states.editState', function (data) {
 					var nodes = [...elt[0].getElementsByTagName('INPUT')];
 
 					if (data) {
@@ -407,6 +443,7 @@
 
 						for (var i = 0; i < nodes.length; i++) {
 							nodes[i].classList.remove('editable');
+							nodes[i].size = nodes[i].value.length || 4;
 							nodes[i].readOnly = true;
 						}
 

@@ -1,6 +1,6 @@
 var fs = require('fs');
 var jsonfile = require('jsonfile');
-var file = './users_data/example.json';
+var file = './users_data/treeJson.json';
 
 exports.saveFile = function (req, res) {
     var transfer = req.body.json;

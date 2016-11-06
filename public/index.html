@@ -4,8 +4,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Drag'n'Drop Tree App</title>
-	<link rel="stylesheet" href="stylesheets/style.css">
 	<!-- custom styles -->
+	<link rel="stylesheet" href="stylesheets/style.css">
 	<!-- angualr libs -->
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 	<!-- Angular Custom -->
@@ -16,41 +16,31 @@
 </head>
 
 <body ng-app="dndTreeApp">
-	<div>
+	<section>
 		<h1>Drag'n'Drop Tree Application</h1>
 		<hr>
-		<div ng-controller="TreeController">
-
+		<div class = "tree" ng-controller="TreeController">
 			<ng-dom-tree 
 				style="background-color: #000" 
 				ng-model="treeJson" 
 				class="tree" 
 				ng-draggable 
 				ng-droppable
-				ng-add
+				ng-add-branch
+				ng-add-node
 				ng-remove
 				ng-edit>
 			</ng-dom-tree>
 
-			<div class="buttons-list">
-				<button class="btn btn-edit" ng-click="edit($event)">edit</button>
-				<button class="btn btn-node-add" ng-click="addNodes($event)">add node</button>
-				<button class="btn btn-node-remove" ng-click="removeNodes($event)">remove node</button>
-				<button class="btn btn-save" ng-click="saveToFile(treeJson)">save</button>	
-			</div>
-
-			<div class="debug">
-				<div class="init_json">
-					<h3>Init</h3>
-					<pre>{{debug | json:4 }}</pre>
-				</div>
-				<div class="init_json">
-					<h3>Now</h3>
-					<pre>{{treeJson | json:4 }}</pre>
-				</div>
+			<div class="buttons-list" ng-controller="ToolsController">
+				<button class="btn btn-edit" ng-class = "{'pressed': states.editState}" ng-click="tools.editValues($event)">edit notes</button>
+				<button class="btn btn-node-add-branch" ng-class = "{'pressed': states.addBranchState}" ng-click="tools.addBranch($event)">add " " : " "</button>
+				<button class="btn btn-node-add-node" ng-class = "{'pressed': states.addNodeState}" ng-click="tools.addNode($event)">add {}</button>
+				<button class="btn btn-node-remove" ng-class = "{'pressed': states.removeState}" ng-click="tools.removeNode($event)">remove node</button>
+				<button class="btn btn-save" ng-click="tools.save()">save</button>	
 			</div>
 		</div>
-	</div>
+	</section>
 </body>
 
 </html>

@@ -1,8 +1,6 @@
 Drag-and-Drop-Tree
 =================
 
-*** just in progress... ***
-
 _This is the test task for WEB-dev._
 
 Task conditions and restrictions:
@@ -17,7 +15,7 @@ Goals:
 - [x] display json in a DOM tree on the WEB page
 - [x] parsing func json->DOM & DOM->json
 - [x] adding/removing nodes func
-- [x] **NOT WORKING** drag'n'drop nodes func 
+- [x] drag'n'drop nodes func 
 - [x] saving result in the file func
 - [x] edit nodes func  
 
