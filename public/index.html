@@ -10,36 +10,65 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
 	<!-- Angular Custom -->
 	<script src="javascripts/app.js"></script>
-	<script src="javascripts/app/controllers/controller.js"></script>
-	<script src="javascripts/app/services/service.js"></script>
-	<script src="javascripts/app/directives.js"></script>
+	<script src="javascripts/app/controllers/TreeController.js"></script>
+	<script src="javascripts/app/controllers/ToolsController.js"></script>
+	<script src="javascripts/app/services/treeService.js"></script>
+	<script src="javascripts/app/directives/treeDirective.js"></script>
+	<script src="javascripts/app/directives/dndDirective.js"></script>
+	<script src="javascripts/app/directives/toolsDirectives.js"></script>
 </head>
 
 <body ng-app="dndTreeApp">
 	<section>
+
 		<h1>Drag'n'Drop Tree Application</h1>
 		<hr>
+
 		<div class = "tree" ng-controller="TreeController">
-			<ng-dom-tree 
-				style="background-color: #000" 
-				ng-model="treeJson" 
-				class="tree" 
+
+			<ng-dom-tree
 				ng-draggable 
 				ng-droppable
+				ng-edit
 				ng-add-branch
 				ng-add-node
-				ng-remove
-				ng-edit>
+				ng-remove>
 			</ng-dom-tree>
 
 			<div class="buttons-list" ng-controller="ToolsController">
-				<button class="btn btn-edit" ng-class = "{'pressed': states.editState}" ng-click="tools.editValues($event)">edit notes</button>
-				<button class="btn btn-node-add-branch" ng-class = "{'pressed': states.addBranchState}" ng-click="tools.addBranch($event)">add " " : " "</button>
-				<button class="btn btn-node-add-node" ng-class = "{'pressed': states.addNodeState}" ng-click="tools.addNode($event)">add {}</button>
-				<button class="btn btn-node-remove" ng-class = "{'pressed': states.removeState}" ng-click="tools.removeNode($event)">remove node</button>
-				<button class="btn btn-save" ng-click="tools.save()">save</button>	
+				<button 
+					class="btn btn-edit tooltip" 
+					ng-class = "{'pressed': states.editState}" 
+					ng-click="tools.editValues($event)">edit notes
+					<span class="tooltiptext">Click on block to change note</span>
+				</button>
+				<button 
+					class="btn btn-node-add-branch tooltip" 
+					ng-class = "{'pressed': states.addBranchState}" 
+					ng-click="tools.addBranch($event)">add branch
+					<span class="tooltiptext">Click on highlighted node to add new branch</span>
+				</button>
+				<button 
+					class="btn btn-node-add-node tooltip" 
+					ng-class = "{'pressed': states.addNodeState}" 
+					ng-click="tools.addNode($event)">add node
+				<span class="tooltiptext">Click on highlighted node to add new node</span>
+				</button>
+				<button 
+					class="btn btn-node-remove tooltip" 
+					ng-class = "{'pressed': states.removeState}" 
+					ng-click="tools.removeNode($event)">remove node
+					<span class="tooltiptext">Click on any branch/node to remove it</span>
+				</button>
+				<button 
+					class="btn btn-save tooltip" 
+					ng-click="tools.save()">save
+					<span class="tooltiptext">Click here to save Tree to server</span>	
+				</button>	
 			</div>
+
 		</div>
+
 	</section>
 </body>
 

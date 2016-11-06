@@ -22,10 +22,11 @@ exports.saveFile = function (req, res) {
 exports.readFile = function (req, res) {
 
     jsonfile.readFile(file, function (err, object) {
+
         if (err)
             return res.status(404).send('Sorry, we cannot find that file!');
 
         return res.status(200).json(object);
-    });
 
+    });
 }

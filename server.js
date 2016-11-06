@@ -18,19 +18,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-	var err = new Error('Not Found');
-	err.status = 404;
-	next(err);
+// error handlers
+app.use(function (req, res) {
+	res.status(404).render('404', {
+		status: '404',
+		message: 'Oops - Page Not Found'
+	});
 });
 
-// error handlers
+app.use(function (err, req, res, next) {
+	console.error(err.stack);
+	res.status(500).render('500', {
+		status: '500',
+		message: 'Sorry - Server Error'
+	});
+});
 
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-	app.use(function(err, req, res, next) {
+	app.use(function (err, req, res, next) {
 		res.status(err.status || 500);
 		res.render('error', {
 			message: err.message,
@@ -41,13 +48,12 @@ if (app.get('env') === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
 	res.status(err.status || 500);
 	res.render('error', {
 		message: err.message,
 		error: {}
 	});
 });
-
 
 module.exports = app;

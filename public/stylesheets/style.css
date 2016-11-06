@@ -1,120 +1,192 @@
-body 
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+body
 {
-	padding: 0;
-	margin: 0; 
-	color: #3d3741;
-	background-color: #f2f2f2;
-	font-family: Georgia, serif, "Calibri";
+    font-family: 'Montserrat',Georgia, serif, 'Calibri';
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #3d3741;
+    background-color: #f2f2f2;
 }
-h1{ text-align: center; }
-hr{ width: 20%; }
-ul{ list-style-type: none; }
+h1
+{
+    text-align: center;
+}
+hr
+{
+    width: 20%;
+}
+ul
+{
+    list-style-type: none;
+}
 input
 {
-	border: 0;
-	padding: 5px;
-	margin: 5px;
-	border-radius: 5px;
-	text-align: center;
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    margin: 5px;
+    padding: 5px;
+    text-align: center;
+    border: 2px solid transparent;
+    border-radius: 5px;
 }
 ul li
-{	
-	margin: 5px;
-	float:left;
-    clear:left;
-}
-/*ul li[class='tree__branch']::before{
-	content: '—';
-	margin: 0 10px;	
-	display: inline-block;
-	cursor: pointer;
-}*/
-input:hover{ cursor: pointer; }
-ul li[class='tree__branch']:hover> input{ background-color:#84a6f9; }
-.tree__node > input{ display: block; }
-.tree__node > input[class='tree__object']:hover,
-.tree__node > input[class='tree__array']:hover 
 {
-	background-color: #89a6f9;
-}
-.tree__node  input[class='tree__object']:hover ~ ul,
-.tree__node  input[class='tree__array']:hover  ~ ul
-{	
-	opacity: .5;
-}
-.tree__object
-{
-	color: #eee;
-	background-color: #222;
-	display: inline-block;
-}
-.tree__array
-{
-	display: inline-block;
-	background-color: #ff4500;
-}
-.tree__branch_value{
-	color: #eee;
-	background-color: #941;
-}
-.tree__branch_leaf_value{ background-color: #0d0; }
-.navigator
-{
-	background-color: #ff0;
-	display: inline-block;
-}
-.buttons-list
-{
-	position: fixed;
-	bottom: 50px;
-	right: 50px;
-}
-.btn
-{	
-	display: inline-block;
-	padding: 1em 1.3em;
-	border-radius: 5px;
-	background-color: #d22;
-	border-color: #fff;
-	color: #fff;
-	opacity: .7;
-}
-.btn:focus{ outline:0; }
- input[type='text']:focus{ outline:0; }
-.pressed
-{	
-	background-color: #fff;
-	border-color: #d22;
-	color: #d22;
-	opacity: 1;
-}
-.btn:hover
-{	
-	border-color: #d22;
-	cursor: pointer;
-	opacity: 1;
-}
-.branch_addable
-{
-	background-color: #aea;
-	box-shadow: 2px 2px black, -2px -2px black; 
-}
-.node_addable
-{
-	background-color: #aea;
-	box-shadow: 2px 2px black, -2px -2px black; 
-}
-.removable
-{
-	opacity: .7;
-	box-shadow: 2px 2px #d22, -2px -2px #d22;
-}
-.editable
-{
-	text-decoration: underline;
-	/*background-color: #fff;*/
+    float: left;
+    clear: left;
+    margin: 5px;
 }
 .tree
 {
-	min-width: 500px;
+    min-width: 500px;
+    padding: 2em;
+}
+.tree__object
+{
+    display: inline-block;
+    color: #eee;
+    background-color: #222;
+}
+.tree__array
+{
+    display: inline-block;
+    background-color: #ff4500;
+}
+.tree__branch_value
+{
+    color: #eee;
+    background-color: #941;
+}
+.tree__branch_leaf_value
+{
+    background-color: #0d0;
+}
+/* hovers */
+input:hover
+{
+    cursor: pointer;
+}
+input[type='text']:focus
+{
+    outline: 0;
+}
+ul li[class='tree__branch']:hover > input
+{
+    background-color: #84a6f9;
+}
+.tree__node > input
+{
+    display: block;
+}
+.tree__node > .tree__object:hover,
+.tree__node > .tree__array:hover
+{
+    background-color: #89a6f9;
+}
+.tree__node  .tree__object:hover ~ ul,
+.tree__node  .tree__array:hover ~ ul
+{
+    opacity: .5;
+}
+/* tools buttons */
+.buttons-list
+{
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+}
+.btn
+{
+    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+    font-size: .7em;
+    display: inline-block;
+    padding: .5em 1em;
+    opacity: .7;
+    color: #fff;
+    border: 2px solid transparent;
+    border-radius: 5px;
+    background-color: #d72;
+}
+.btn:focus
+{
+    outline: 0;
+}
+.btn:hover
+{
+    cursor: pointer;
+    opacity: 1;
+    border-color: #d72;
+}
+/* dynamic classes */
+.pressed
+{
+    color: #d72;
+    border: 2px solid #d72;
+    background-color: #fff;
+}
+.editable
+{
+    color: #333;
+    border: 2px dashed #444;
+    background-color: #bebebe;
+}
+.branch_addable
+{
+    color: #000;
+    border: 2px dashed #444;
+    background-color: #afa;
+}
+.node_addable
+{
+    color: #000;
+    border: 2px dashed #444;
+    background-color: #afa;
+}
+.removable
+{
+    color: #fff;
+    border: 2px dashed #444;
+    background-color: #f55;
+}
+.navigator
+{
+    color: #000;
+    border: 2px dashed #444;
+    background-color: #ff0;
+}
+/* tooltip */
+.tooltip
+{
+    position: relative;
+    display: inline-block;
+}
+.tooltip .tooltiptext
+{
+    position: absolute;
+    z-index: 1;
+    bottom: 150%;
+    left: 50%;
+    visibility: hidden;
+    width: 120px;
+    margin-left: -60px;
+    padding: 5px 0;
+    text-align: center;
+    opacity: .6;
+    color: #fff;
+    border-radius: 6px;
+    background-color: #000;
+}
+.tooltip .tooltiptext::after
+{
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    content: '';
+    border-width: 5px;
+    border-style: solid;
+    border-color: #000 transparent transparent transparent;
+}
+.tooltip:hover .tooltiptext
+{
+    visibility: visible;
 }
