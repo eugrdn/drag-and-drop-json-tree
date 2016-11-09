@@ -20,21 +20,23 @@ ul
 {
     list-style-type: none;
 }
-input
-{
-    font-family: 'Montserrat', Arial, Helvetica, sans-serif;
-    margin: 5px;
-    padding: 5px;
-    text-align: center;
-    border: 2px solid transparent;
-    border-radius: 5px;
-}
 ul li
 {
     float: left;
     clear: left;
     margin: 5px;
 }
+input
+{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: .8rem;
+    margin: 5px;
+    padding: 5px 0px;
+    text-align: center;
+    border: 2px solid transparent;
+    border-radius: 5px;
+}
+/* tree */
 .tree
 {
     min-width: 500px;
@@ -60,19 +62,6 @@ ul li
 {
     background-color: #0d0;
 }
-/* hovers */
-input:hover
-{
-    cursor: pointer;
-}
-input[type='text']:focus
-{
-    outline: 0;
-}
-ul li[class='tree__branch']:hover > input
-{
-    background-color: #84a6f9;
-}
 .tree__node > input
 {
     display: block;
@@ -86,6 +75,19 @@ ul li[class='tree__branch']:hover > input
 .tree__node  .tree__array:hover ~ ul
 {
     opacity: .5;
+}
+/* hovers */
+input:hover
+{
+    cursor: pointer;
+}
+input[type='text']:focus
+{
+    outline: 0;
+}
+ul li[class='tree__branch']:hover > input
+{
+    background-color: #84a6f9;
 }
 /* tools buttons */
 .buttons-list

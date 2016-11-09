@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict'
 
     angular.module('dndTreeApp.directives')
@@ -13,9 +13,9 @@
 
         return {
             restrict: 'A',
-            link: function(scope, elt) {
+            link: function (scope, elt) {
 
-                scope.$watch('states.editState', function(data) {
+                scope.$watch('states.editState', function (data) {
                     var nodes = [...elt[0].getElementsByTagName('INPUT')];
 
                     if (data) {
@@ -29,13 +29,33 @@
 
                         for (var i = 0; i < nodes.length; i++) {
                             nodes[i].classList.remove('editable');
-                            nodes[i].size = nodes[i].value.length || 4;
+                            nodes[i].value = nodes[i].value.trim();
+                            nodes[i].size = nodes[i].value.length || 1;
                             nodes[i].readOnly = true;
                         }
 
                     }
-
                 });
+
+                elt.bind('input', function (e) {
+                    var clickedElt = e.target || event.target;
+                    var parent = clickedElt.parentNode;
+                    var val = clickedElt.value;
+
+                    if (clickedElt.tagName != 'INPUT' && !(parent.className === 'tree__object' || parent.className === 'tree__array')) {
+                        return;
+                    }
+
+                    if (val.charAt(0) === ' ') {
+                        val = val.slice(1);
+                    }
+
+                    val = val.replace(/\s{2,}/, ' ');
+
+                    clickedElt.value = val;
+                    clickedElt.size = val.length || 1;
+                });
+
             }
         }
     }
@@ -44,19 +64,19 @@
 
     function ngAddBranch() {
 
-        var createInput = function(text, ...className) {
+        var createInput = function (text, ...className) {
             var input = document.createElement('input');
 
             input.type = 'text';
             input.value = text;
             input.classList = [...className].join(' ');
             input.readOnly = true;
-            input.size = text.length || 5;
+            input.size = text.length || 1;
 
             return input;
         };
 
-        var createBranch = function(branchValue, leafValue) {
+        var createBranch = function (branchValue, leafValue) {
             var branch = document.createElement('li');
 
             branch.appendChild(createInput(branchValue, 'tree__branch_value'));
@@ -69,10 +89,10 @@
 
         return {
             restrict: 'A',
-            link: function(scope, elt) {
+            link: function (scope, elt) {
 
-                scope.$watch('states.addBranchState', function(data) {
-                    var nodes = [...elt[0].getElementsByTagName('INPUT')].filter(function(item) {
+                scope.$watch('states.addBranchState', function (data) {
+                    var nodes = [...elt[0].getElementsByTagName('INPUT')].filter(function (item) {
                         return item.classList.contains('tree__object') || item.classList.contains('tree__array');
                     });
 
@@ -92,7 +112,7 @@
 
                 });
 
-                elt[0].addEventListener('click', function(e) {
+                elt[0].addEventListener('click', function (e) {
                     var clickedElt = e.target || event.target;
                     var parent = clickedElt.parentNode;
 
@@ -115,19 +135,19 @@
 
     function ngAddNode() {
 
-        var createInput = function(text, ...className) {
+        var createInput = function (text, ...className) {
             var input = document.createElement('input');
 
             input.type = 'text';
             input.value = text;
             input.classList = [...className].join(' ');
-            input.size = text.length || 5;
+            input.size = text.length || 1;
             input.readOnly = true;
 
             return input;
         };
 
-        var createNode = function(nodeValue) {
+        var createNode = function (nodeValue) {
             var node = document.createElement('li');
 
             node.appendChild(createInput(nodeValue, 'tree__object'));
@@ -140,10 +160,10 @@
 
         return {
             restrict: 'A',
-            link: function(scope, elt) {
+            link: function (scope, elt) {
 
-                scope.$watch('states.addNodeState', function(data) {
-                    var nodes = [...elt[0].getElementsByTagName('INPUT')].filter(function(item) {
+                scope.$watch('states.addNodeState', function (data) {
+                    var nodes = [...elt[0].getElementsByTagName('INPUT')].filter(function (item) {
                         return item.classList.contains('tree__object') || item.classList.contains('tree__array');
                     });
 
@@ -159,7 +179,7 @@
 
                 });
 
-                elt[0].addEventListener('click', function(e) {
+                elt[0].addEventListener('click', function (e) {
                     var clickedElt = e.target || event.target;
                     var parent = clickedElt.parentNode;
 
@@ -184,9 +204,9 @@
 
         return {
             restrict: 'A',
-            link: function(scope, elt) {
+            link: function (scope, elt) {
 
-                scope.$watch('states.removeState', function(data) {
+                scope.$watch('states.removeState', function (data) {
                     var nodes = [...elt[0].getElementsByTagName('INPUT')];
 
                     if (data) {
@@ -201,7 +221,7 @@
 
                 });
 
-                elt[0].addEventListener('click', function(e) {
+                elt[0].addEventListener('click', function (e) {
                     var clickedElt = e.target || event.target;
                     var parent = clickedElt.parentNode;
 
