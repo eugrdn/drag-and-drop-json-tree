@@ -1,4 +1,4 @@
-(function () {
+(function() {
     'use strict'
 
     angular.module('dndTreeApp.directives')
@@ -13,9 +13,9 @@
 
         return {
             restrict: 'A',
-            link: function (scope, elt) {
+            link: function(scope, elt) {
 
-                scope.$watch('states.editState', function (data) {
+                scope.$watch('states.editState', function(data) {
                     var nodes = [...elt[0].getElementsByTagName('INPUT')];
 
                     if (data) {
@@ -37,7 +37,7 @@
                     }
                 });
 
-                elt.bind('input', function (e) {
+                elt.bind('input', function(e) {
                     var clickedElt = e.target || event.target;
                     var parent = clickedElt.parentNode;
                     var val = clickedElt.value;
@@ -64,7 +64,7 @@
 
     function ngAddBranch() {
 
-        var createInput = function (text, ...className) {
+        var createInput = function(text, ...className) {
             var input = document.createElement('input');
 
             input.type = 'text';
@@ -76,7 +76,7 @@
             return input;
         };
 
-        var createBranch = function (branchValue, leafValue) {
+        var createBranch = function(branchValue, leafValue) {
             var branch = document.createElement('li');
 
             branch.appendChild(createInput(branchValue, 'tree__branch_value'));
@@ -89,10 +89,10 @@
 
         return {
             restrict: 'A',
-            link: function (scope, elt) {
+            link: function(scope, elt) {
 
-                scope.$watch('states.addBranchState', function (data) {
-                    var nodes = [...elt[0].getElementsByTagName('INPUT')].filter(function (item) {
+                scope.$watch('states.addBranchState', function(data) {
+                    var nodes = [...elt[0].getElementsByTagName('INPUT')].filter(function(item) {
                         return item.classList.contains('tree__object') || item.classList.contains('tree__array');
                     });
 
@@ -112,7 +112,7 @@
 
                 });
 
-                elt[0].addEventListener('click', function (e) {
+                elt[0].addEventListener('click', function(e) {
                     var clickedElt = e.target || event.target;
                     var parent = clickedElt.parentNode;
 
@@ -135,7 +135,7 @@
 
     function ngAddNode() {
 
-        var createInput = function (text, ...className) {
+        var createInput = function(text, ...className) {
             var input = document.createElement('input');
 
             input.type = 'text';
@@ -147,7 +147,7 @@
             return input;
         };
 
-        var createNode = function (nodeValue) {
+        var createNode = function(nodeValue) {
             var node = document.createElement('li');
 
             node.appendChild(createInput(nodeValue, 'tree__object'));
@@ -160,10 +160,10 @@
 
         return {
             restrict: 'A',
-            link: function (scope, elt) {
+            link: function(scope, elt) {
 
-                scope.$watch('states.addNodeState', function (data) {
-                    var nodes = [...elt[0].getElementsByTagName('INPUT')].filter(function (item) {
+                scope.$watch('states.addNodeState', function(data) {
+                    var nodes = [...elt[0].getElementsByTagName('INPUT')].filter(function(item) {
                         return item.classList.contains('tree__object') || item.classList.contains('tree__array');
                     });
 
@@ -179,7 +179,7 @@
 
                 });
 
-                elt[0].addEventListener('click', function (e) {
+                elt[0].addEventListener('click', function(e) {
                     var clickedElt = e.target || event.target;
                     var parent = clickedElt.parentNode;
 
@@ -204,9 +204,9 @@
 
         return {
             restrict: 'A',
-            link: function (scope, elt) {
+            link: function(scope, elt) {
 
-                scope.$watch('states.removeState', function (data) {
+                scope.$watch('states.removeState', function(data) {
                     var nodes = [...elt[0].getElementsByTagName('INPUT')];
 
                     if (data) {
@@ -221,7 +221,7 @@
 
                 });
 
-                elt[0].addEventListener('click', function (e) {
+                elt[0].addEventListener('click', function(e) {
                     var clickedElt = e.target || event.target;
                     var parent = clickedElt.parentNode;
 

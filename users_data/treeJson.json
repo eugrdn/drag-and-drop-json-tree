@@ -21,5 +21,13 @@
             },
             "para": "A meta-markup language, used to create markup languages"
         }
+    },
+    "man": {
+        "id": "4",
+        "first_name": "Raymond",
+        "last_name": "Martin",
+        "email": "rmartin3@examiner.com",
+        "gender": "Male",
+        "ip_address": "40.229.80.207"
     }
 }

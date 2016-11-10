@@ -55,7 +55,7 @@
                     var droppableElt = e.target || event.target;
                     var parent = droppableElt.parentNode;
 
-                    if (droppableElt.tagName != 'INPUT' && !(parent.className === 'tree__node' || parent.className === 'tree__branch')) {
+                    if (droppableElt.tagName != 'INPUT' && droppableElt.id != 'tree-root' && !(parent.className === 'tree__node' || parent.className === 'tree__branch')) {
                         return;
                     }
 
@@ -65,7 +65,11 @@
                         e.preventDefault();
                     }
 
-                    parent.classList.add('over');
+                    if (droppableElt.id === 'tree-root') {
+                        droppableElt.classList.add('over');
+                    } else {
+                        parent.classList.add('over');
+                    }
 
                 });
 
@@ -73,7 +77,7 @@
                     var droppableElt = e.target || event.target;
                     var parent = droppableElt.parentNode;
 
-                    if (droppableElt.tagName != 'INPUT' && !(parent.className === 'tree__node' || parent.className === 'tree__branch')) {
+                    if (droppableElt.tagName != 'INPUT' && droppableElt.id != 'tree-root' && !(parent.className === 'tree__node' || parent.className === 'tree__branch')) {
                         return;
                     }
 
@@ -85,7 +89,12 @@
                         droppableElt.classList.add('navigator');
                     }
 
-                    parent.classList.add('over');
+                    if (droppableElt.id === 'tree-root') {
+                        droppableElt.classList.add('over');
+                        droppableElt.classList.add('addable');
+                    } else {
+                        parent.classList.add('over');
+                    }
 
                 });
 
@@ -93,7 +102,7 @@
                     var droppableElt = e.target || event.target;
                     var parent = droppableElt.parentNode;
 
-                    if (droppableElt.tagName != 'INPUT' && !(parent.className === 'tree__node' || parent.className === 'tree__branch')) {
+                    if (droppableElt.tagName != 'INPUT' && droppableElt.id != 'tree-root' && !(parent.className === 'tree__node' || parent.className === 'tree__branch')) {
                         return;
                     }
 
@@ -105,7 +114,12 @@
                         droppableElt.classList.remove('navigator');
                     }
 
-                    parent.classList.remove('over');
+                    if (droppableElt.id === 'tree-root') {
+                        droppableElt.classList.remove('over');
+                        droppableElt.classList.remove('addable');
+                    } else {
+                        parent.classList.remove('over');
+                    }
 
                 });
 
@@ -114,7 +128,7 @@
                     var parent = droppableElt.parentNode;
                     var item = document.getElementById(e.dataTransfer.getData('Text'));
 
-                    if (droppableElt.tagName != 'INPUT' && !(parent.className === 'tree__node' || parent.className === 'tree__branch')) {
+                    if (droppableElt.tagName != 'INPUT' && droppableElt.id != 'tree-root' && !(parent.className === 'tree__node' || parent.className === 'tree__branch')) {
                         return;
                     }
 
@@ -130,12 +144,19 @@
                         droppableElt.classList.remove('navigator');
                     }
 
-                    parent.classList.remove('over');
+                    if (droppableElt.id === 'tree-root') {
+                        droppableElt.classList.remove('over');
+                    } else {
+                        parent.classList.remove('over');
+                    }
 
                     if (parent.className === 'tree__node') {
                         parent.lastChild.appendChild(item);
                     } else if (parent.className === 'tree__branch') {
                         parent.parentNode.insertBefore(item, parent);
+                    } else if (droppableElt.id === 'tree-root') {
+                        this.children[0].appendChild(item);
+                        droppableElt.classList.remove('addable');
                     }
 
                     item.id = '';

@@ -80,7 +80,7 @@
                 activateState('removeState');
             },
             save: function() {
-                var newTree = parseTreeToDOM(document.getElementById('tree_container'));
+                var newTree = parseTreeToDOM(document.getElementById('tree-container'));
 
                 activateState();
 

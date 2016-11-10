@@ -4,9 +4,9 @@
     angular.module('dndTreeApp.directives')
         .directive('ngDomTree', ngDomTree);
 
-    ngDomTree.$inject = [];
+    ngDomTree.$inject = ['$window'];
 
-    function ngDomTree() {
+    function ngDomTree($window) {
 
         var isEmpty = function(object) {
             for (var key in object) {
@@ -76,21 +76,33 @@
             replace: true,
             link: function(scope, elt) {
 
+                var tree = document.createElement('ul');
+                var root = document.createElement('div');
+                var header = document.getElementById('dnd-header');
+                var headerBtm = header.getBoundingClientRect().bottom + $window.pageYOffset;
+
+                tree.id = 'tree-container';
+                root.id = 'tree-root';
+                root.innerHTML = 'tree root';
+
                 scope.$watch('treeJson', function(data) {
 
                     if (isEmpty(data)) {
                         return
                     };
 
-                    if (elt[0].firstChild) {
-                        elt[0].removeChild(elt[0].firstChild);
-                    }
-
-                    var tree = document.createElement('ul');
-                    tree.id = 'tree_container';
                     elt[0].appendChild(tree);
+                    elt[0].appendChild(root);
 
-                    createTree(data, document.getElementById('tree_container'));
+                    createTree(data, document.getElementById('tree-container'));
+                });
+
+                angular.element($window).on('scroll', function() {
+                    if ($window.pageYOffset > headerBtm) {
+                        root.classList.add('scrollable');
+                    } else if ($window.pageYOffset < headerBtm) {
+                        root.classList.remove('scrollable');
+                    }
                 });
 
             }

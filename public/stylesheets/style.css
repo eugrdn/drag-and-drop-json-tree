@@ -76,6 +76,35 @@ input
 {
     opacity: .5;
 }
+/* tree root */
+#tree-root
+{
+    padding: 1.1em 0; 
+	height: 75%;
+    width: 50px;
+    left: 10px;
+    top: 15%;
+    color: #333;
+    background-color: #e5e5e5;
+	opacity: .3;
+	position: fixed;
+    transition: opacity 200ms linear;
+}
+#tree-root:hover
+{
+    cursor: pointer;
+    opacity: 1;
+}
+#tree-root.scrollable
+{   
+    opacity: 1;
+    transition: opacity 200ms linear;
+}
+#tree-root.addable
+{
+    opacity: 1;
+    transition: opacity 200ms linear;
+}
 /* hovers */
 input:hover
 {
@@ -127,7 +156,7 @@ ul li[class='tree__branch']:hover > input
 }
 .editable
 {
-    color: #333;
+    color: #222;
     border: 2px dashed #444;
     background-color: #bebebe;
 }
