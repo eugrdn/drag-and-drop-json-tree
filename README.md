@@ -39,4 +39,4 @@ The current json is placed in `./users_data`. To use your own json file place it
 
 ###Preview:
 
-![alt tag](https://github.com/rodinwow/screenshots/blob/master/d'n'd-tree.png)
+![preview-gif](https://github.com/rodinwow/screenshots/blob/master/d'n'd-tree.gif)
