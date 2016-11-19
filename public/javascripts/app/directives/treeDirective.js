@@ -38,33 +38,25 @@
                 var __ul = document.createElement('ul');
 
                 if (tree[branch] instanceof Array) {
-
                     li.appendChild(createInput(branch, 'tree__array'));
                     li.className = 'tree__node';
                     li.draggable = true;
-
                 } else if (tree[branch] instanceof Object) {
-
                     li.appendChild(createInput(branch, 'tree__object'));
                     li.className = 'tree__node';
                     li.draggable = true;
-
                 } else {
-
                     li.appendChild(createInput(branch, 'tree__branch_value'));
                     li.appendChild(createInput(tree[branch], 'tree__branch_leaf_value'));
                     li.classList = 'tree__branch';
                     li.draggable = true;
-
                 }
 
                 if (tree[branch] instanceof Array || tree[branch] instanceof Object) {
-
                     __ul.appendChild(_li);
                     _li.appendChild(_ul);
                     li.appendChild(_ul);
                     createTree(tree[branch], _ul);
-
                 }
 
                 list.appendChild(li);
@@ -87,9 +79,7 @@
 
                 scope.$watch('treeJson', function(data) {
 
-                    if (isEmpty(data)) {
-                        return
-                    };
+                    if (isEmpty(data)) return;
 
                     elt[0].appendChild(tree);
                     elt[0].appendChild(root);
@@ -104,7 +94,6 @@
                         root.classList.remove('scrollable');
                     }
                 });
-
             }
         }
     }

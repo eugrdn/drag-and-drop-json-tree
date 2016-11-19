@@ -19,21 +19,17 @@
                     var nodes = [...elt[0].getElementsByTagName('INPUT')];
 
                     if (data) {
-
                         for (var i = 0; i < nodes.length; i++) {
                             nodes[i].classList.add('editable');
                             nodes[i].readOnly = false;
                         }
-
                     } else {
-
                         for (var i = 0; i < nodes.length; i++) {
                             nodes[i].classList.remove('editable');
                             nodes[i].value = nodes[i].value.trim();
                             nodes[i].size = nodes[i].value.length || 1;
                             nodes[i].readOnly = true;
                         }
-
                     }
                 });
 
@@ -42,9 +38,7 @@
                     var parent = clickedElt.parentNode;
                     var val = clickedElt.value;
 
-                    if (clickedElt.tagName != 'INPUT' && !(parent.className === 'tree__object' || parent.className === 'tree__array')) {
-                        return;
-                    }
+                    if (clickedElt.tagName != 'INPUT' && !(parent.className === 'tree__object' || parent.className === 'tree__array')) return;
 
                     if (val.charAt(0) === ' ') {
                         val = val.slice(1);
@@ -97,30 +91,24 @@
                     });
 
                     if (data) {
-
                         for (var i = 0; i < nodes.length; i++) {
                             nodes[i].classList.add('branch_addable');
                         }
-
                     } else {
-
                         for (var i = 0; i < nodes.length; i++) {
                             nodes[i].classList.remove('branch_addable');
                         }
-
                     }
-
                 });
 
                 elt[0].addEventListener('click', function(e) {
                     var clickedElt = e.target || event.target;
                     var parent = clickedElt.parentNode;
+                    var newBranch;
 
-                    if (clickedElt.tagName != 'INPUT' && !(parent.className === 'tree__object' || parent.className === 'tree__array')) {
-                        return;
-                    }
+                    if (clickedElt.tagName != 'INPUT' && !(parent.className === 'tree__object' || parent.className === 'tree__array')) return;
 
-                    var newBranch = createBranch('new branch', 'new leaf')
+                    newBranch = createBranch('new branch', 'new leaf')
 
                     if (scope.states.addBranchState) {
                         parent.lastChild.appendChild(newBranch);
@@ -176,18 +164,16 @@
                             nodes[i].classList.remove('node_addable');
                         }
                     }
-
                 });
 
                 elt[0].addEventListener('click', function(e) {
                     var clickedElt = e.target || event.target;
                     var parent = clickedElt.parentNode;
+                    var newNode;
 
-                    if (clickedElt.tagName != 'INPUT' && !(parent.className === 'tree__object' || parent.className === 'tree__array')) {
-                        return;
-                    }
+                    if (clickedElt.tagName != 'INPUT' && !(parent.className === 'tree__object' || parent.className === 'tree__array')) return;
 
-                    var newNode = createNode('new node');
+                    newNode = createNode('new node');
 
                     if (scope.states.addNodeState) {
                         parent.lastChild.appendChild(newNode);
@@ -218,21 +204,17 @@
                             nodes[i].classList.remove('removable');
                         }
                     }
-
                 });
 
                 elt[0].addEventListener('click', function(e) {
                     var clickedElt = e.target || event.target;
                     var parent = clickedElt.parentNode;
 
-                    if (clickedElt.tagName != 'INPUT') {
-                        return;
-                    }
+                    if (clickedElt.tagName != 'INPUT') return;
 
                     if (scope.states.removeState) {
                         parent.parentNode.removeChild(parent);
                     }
-
                 });
             }
         }

@@ -12,13 +12,11 @@
             var _states = $scope.states;
 
             for (var key in _states) {
-
                 if (key !== state) {
                     _states[key] = false;
                 } else {
                     _states[key] = !_states[key];
                 }
-
             }
         };
 
@@ -38,7 +36,6 @@
                     } else if (object instanceof Object) {
                         object[tree[i].firstChild.value] = tree[i].lastChild.value;
                     }
-
                 } else if (tree[i].classList.contains('tree__node')) {
 
                     if (tree[i].firstChild.classList.contains('tree__object')) {
@@ -48,9 +45,7 @@
                     }
 
                     parse(tree[i].lastChild, object[tree[i].firstChild.value]);
-
                 }
-
             }
 
             return object;
@@ -87,11 +82,9 @@
                 treeService.saveTree(newTree)
                     .success(function(data) { alert('File has been saved successfully!', data); })
                     .error(function(err) { alert('Error while saving', err) });
-
             }
-
         };
-
+        
     }
 
 })();

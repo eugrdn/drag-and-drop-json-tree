@@ -16,9 +16,7 @@
                 elt[0].addEventListener('dragstart', function(e) {
                     var touchedElt = e.target || event.target;
 
-                    if (touchedElt.tagName != 'LI') {
-                        return;
-                    }
+                    if (touchedElt.tagName != 'LI') return;
 
                     touchedElt.id = 'dragged';
                     e.dataTransfer.effectAllowed = 'move';
@@ -31,9 +29,7 @@
                 elt[0].addEventListener('dragend', function(e) {
                     var touchedElt = e.target || event.target;
 
-                    if (touchedElt.tagName != 'LI') {
-                        return;
-                    }
+                    if (touchedElt.tagName != 'LI') return;
 
                     touchedElt.classList.remove('drag');
 
@@ -55,36 +51,32 @@
                     var droppableElt = e.target || event.target;
                     var parent = droppableElt.parentNode;
 
-                    if (droppableElt.tagName != 'INPUT' && droppableElt.id != 'tree-root' && !(parent.className === 'tree__node' || parent.className === 'tree__branch')) {
-                        return;
-                    }
+                    if (droppableElt.tagName != 'INPUT' && 
+                        droppableElt.id != 'tree-root' && 
+                        !(parent.className === 'tree__node' || parent.className === 'tree__branch')) return;
 
                     e.dataTransfer.dropEffect = 'move';
 
-                    if (e.preventDefault) {
-                        e.preventDefault();
-                    }
+                    if (e.preventDefault) e.preventDefault();
 
                     if (droppableElt.id === 'tree-root') {
                         droppableElt.classList.add('over');
                     } else {
                         parent.classList.add('over');
                     }
-
                 });
 
                 elt[0].addEventListener('dragenter', function(e) {
                     var droppableElt = e.target || event.target;
                     var parent = droppableElt.parentNode;
 
-                    if (droppableElt.tagName != 'INPUT' && droppableElt.id != 'tree-root' && !(parent.className === 'tree__node' || parent.className === 'tree__branch')) {
-                        return;
-                    }
+                    if (droppableElt.tagName != 'INPUT' &&
+                        droppableElt.id != 'tree-root' && 
+                        !(parent.className === 'tree__node' || parent.className === 'tree__branch')) return;
 
                     if (parent.classList.contains('tree__branch')) {
                         parent.children[0].classList.add('navigator');
                         parent.children[1].classList.add('navigator');
-
                     } else {
                         droppableElt.classList.add('navigator');
                     }
@@ -95,21 +87,19 @@
                     } else {
                         parent.classList.add('over');
                     }
-
                 });
 
                 elt[0].addEventListener('dragleave', function(e) {
                     var droppableElt = e.target || event.target;
                     var parent = droppableElt.parentNode;
 
-                    if (droppableElt.tagName != 'INPUT' && droppableElt.id != 'tree-root' && !(parent.className === 'tree__node' || parent.className === 'tree__branch')) {
-                        return;
-                    }
+                    if (droppableElt.tagName != 'INPUT' &&
+                        droppableElt.id != 'tree-root' &&
+                        !(parent.className === 'tree__node' || parent.className === 'tree__branch')) return;
 
                     if (parent.classList.contains('tree__branch')) {
                         parent.children[0].classList.remove('navigator');
                         parent.children[1].classList.remove('navigator');
-
                     } else {
                         droppableElt.classList.remove('navigator');
                     }
@@ -120,7 +110,6 @@
                     } else {
                         parent.classList.remove('over');
                     }
-
                 });
 
                 elt[0].addEventListener('drop', function(e) {
@@ -128,18 +117,15 @@
                     var parent = droppableElt.parentNode;
                     var item = document.getElementById(e.dataTransfer.getData('Text'));
 
-                    if (droppableElt.tagName != 'INPUT' && droppableElt.id != 'tree-root' && !(parent.className === 'tree__node' || parent.className === 'tree__branch')) {
-                        return;
-                    }
+                    if (droppableElt.tagName != 'INPUT' &&
+                        droppableElt.id != 'tree-root' &&
+                        !(parent.className === 'tree__node' || parent.className === 'tree__branch')) return;
 
-                    if (e.stopPropagation) {
-                        e.stopPropagation();
-                    }
+                    if (e.stopPropagation) e.stopPropagation();
 
                     if (parent.classList.contains('tree__branch')) {
                         parent.children[0].classList.remove('navigator');
                         parent.children[1].classList.remove('navigator');
-
                     } else {
                         droppableElt.classList.remove('navigator');
                     }
@@ -160,7 +146,6 @@
                     }
 
                     item.id = '';
-
                 });
 
             }

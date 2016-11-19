@@ -18,7 +18,6 @@
             addNodeState: false,
             removeState: false
         };
-
     }
 
 })();
