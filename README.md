@@ -24,7 +24,7 @@ Task conditions and restrictions:
 ## Installation
 
 ```bash
-git clone https://github.com/rodinwow/drag-and-drop-json-tree.git
+git clone https://github.com/eugrdn/drag-and-drop-json-tree.git
 cd drag-and-drop-json-tree
 npm install
 npm start
@@ -39,4 +39,4 @@ The current json is placed in `./users_data`. To use your own json file place it
 
 ###Preview:
 
-![preview-gif](https://github.com/rodinwow/screenshots/blob/master/d'n'd-tree.gif)
+![preview-gif](https://github.com/eugrdn/screenshots/blob/master/d'n'd-tree.gif)

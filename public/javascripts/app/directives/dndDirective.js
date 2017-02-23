@@ -21,9 +21,9 @@
                     touchedElt.id = 'dragged';
                     e.dataTransfer.effectAllowed = 'move';
                     e.dataTransfer.setData('Text', touchedElt.id);
+                    
                     touchedElt.classList.add('drag');
-
-                    e.target.style.opacity = '.5';
+                    touchedElt.style.opacity = '.5';
                 });
 
                 elt[0].addEventListener('dragend', function(e) {
@@ -32,8 +32,7 @@
                     if (touchedElt.tagName != 'LI') return;
 
                     touchedElt.classList.remove('drag');
-
-                    e.target.style.opacity = '1';
+                    touchedElt.style.opacity = '1';
                 });
             }
         }
