@@ -37,6 +37,6 @@ The current json is placed in `./users_data`. To use your own json file place it
 
 `var file = './users_data/treeJson.json';`
 
-###Preview:
+### DEMO:
 
 ![preview-gif](https://github.com/eugrdn/screenshots/blob/master/d'n'd-tree.gif)
